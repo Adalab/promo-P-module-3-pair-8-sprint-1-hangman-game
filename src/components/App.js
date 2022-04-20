@@ -1,8 +1,15 @@
 import '../styles/App.scss';
+import {useState} from 'react';
 
 function App() {
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const handleClickBtn = () => {
+    setNumberOfErrors(numberOfErrors + 1);
+  };
+
   return (
     <div className="page">
+       <button className='btn-color' onClick={handleClickBtn}>Incrementar:</button>
     <header>
       <h1 className="header__title">Juego del ahorcado</h1>
     </header>
@@ -45,7 +52,7 @@ function App() {
           />
         </form>
       </section>
-      <section className="dummy error-5">
+      <section className={`dummy error-${numberOfErrors}`}>
         <span className="error-13 eye"></span>
         <span className="error-12 eye"></span>
         <span className="error-11 line"></span>
