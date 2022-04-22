@@ -4,15 +4,33 @@ import { useState } from 'react';
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setlastLetter] = useState('');
+  const [word, setWord] = useState('elefante');
+  const [userLetters, setUserLetters] = useState([]);
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    console.log(wordLetters);
+    const html = wordLetters.map((letter, index) => {
+    return (<li key={index} className="letter"></li>)
+  });
+  return html;
+  }
+
   const handleClickBtn = () => {
     setNumberOfErrors(numberOfErrors + 1);
   };
   const handleLetter = (ev) => {
     const newValue = ev.currentTarget.value;
-    // const letters = /^[a-z]/
-    // console.log(letters);
+    const letters = /^[a-zA-Z\u00C0-\u00FF]?$/; /* ?? */ 
+    if (letters.test(newValue)){
     setlastLetter(newValue);
-    // console.log(newValue);
+    console.log(lastLetter)
+    }
+    // const newUserLetters = [...userLetters, lastLetter]
+    // console.log(newUserLetters);
+  }
+  const handleForm = (ev) => {
+    ev.preventDefault();
   }
 
   return (
@@ -28,16 +46,7 @@ function App() {
           <div className='solution'>
             <h2 className='title'>Solución:</h2>
             <ul className='letters'>
-              <li className='letter'>k</li>
-              <li className='letter'>a</li>
-              <li className='letter'></li>
-              <li className='letter'>a</li>
-              <li className='letter'>k</li>
-              <li className='letter'>r</li>
-              <li className='letter'></li>
-              <li className='letter'>k</li>
-              <li className='letter'>e</li>
-              <li className='letter'>r</li>
+            {renderSolutionLetters()}
             </ul>
           </div>
           <div className='error'>
@@ -50,7 +59,7 @@ function App() {
               <li className='letter'>x</li>
             </ul>
           </div>
-          <form className='form'>
+          <form className='form' onSubmit={handleForm}>
             <label className='title' htmlFor='last-letter'>
               Escribe una letra:
             </label>
@@ -61,7 +70,6 @@ function App() {
               type='text'
               name='last-letter'
               id='last-letter'
-              pattern='[a-zA-Z]'
               value={lastLetter}
               onChange={handleLetter}
             />
